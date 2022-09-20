@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -29,9 +30,18 @@ public class User {
     @Size(min = 8, max = 128, message = "You know the drill!")
     private String confirm;
 
+    @OneToMany(mappedBy="user", fetch = FetchType.LAZY)
+    private List<Book> books;
+
     public User(){}
 
-    // TODO generate getters and setters
+    public User(String userName, String email, String password, String confirm, List<Book> books) {
+        this.userName = userName;
+        this.email = email;
+        this.password = password;
+        this.confirm = confirm;
+        this.books = books;
+    }
 
     public Long getId() {
         return id;

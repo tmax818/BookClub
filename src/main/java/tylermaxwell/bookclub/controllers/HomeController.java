@@ -4,9 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import tylermaxwell.bookclub.models.LoginUser;
 import tylermaxwell.bookclub.models.User;
 import tylermaxwell.bookclub.services.UserService;
@@ -26,7 +24,7 @@ public class HomeController {
         // Bind empty User and LoginUser objects to capture form input
         model.addAttribute("newUser", new User());
         model.addAttribute("newLogin", new LoginUser());
-        return "index.jsp";
+        return "auth/index.jsp";
     }
 
     @PostMapping("/register")
@@ -36,14 +34,14 @@ public class HomeController {
         System.out.println(user);
         if(result.hasErrors()){
             model.addAttribute("newLogin", new LoginUser());
-            return "index.jsp";
+            return "auth/index.jsp";
         }
 
         session.setAttribute("userId", user.getId());
         System.out.println(session);
 
 
-        return "redirect:/welcome";
+        return "redirect:/books";
     }
 
     @PostMapping("/login")
@@ -53,12 +51,13 @@ public class HomeController {
 
         if(result.hasErrors() || user==null) {
             model.addAttribute("newUser", new User());
-            return "index.jsp";
+            return "auth/index.jsp";
         }
 
         session.setAttribute("userId", user.getId());
+        session.setAttribute("userName", user.getUserName());
 
-        return "redirect:/welcome";
+        return "redirect:/books";
     }
 
     @GetMapping("/welcome")
@@ -73,7 +72,7 @@ public class HomeController {
         Long userId = (Long) session.getAttribute("userId");
         model.addAttribute("user", userServ.findById(userId));
 
-        return "welcome.jsp";
+        return "auth/welcome.jsp";
 
     }
 

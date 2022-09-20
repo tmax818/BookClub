@@ -8,6 +8,7 @@ import tylermaxwell.bookclub.models.LoginUser;
 import tylermaxwell.bookclub.models.User;
 import tylermaxwell.bookclub.repositories.UserRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -15,11 +16,11 @@ import java.util.Optional;
 public class UserService {
 
     @Autowired
-    private UserRepository userRepo;
+    private UserRepository repo;
 
     public User register(User newUser, BindingResult result) {
 
-        Optional<User> potentialUser = userRepo.findByEmail(newUser.getEmail());
+        Optional<User> potentialUser = repo.findByEmail(newUser.getEmail());
 
         // Reject if email is taken (present in database)
         if(potentialUser.isPresent()) {
@@ -39,13 +40,13 @@ public class UserService {
         // Hash and set password, save user to database
         String hashed = BCrypt.hashpw(newUser.getPassword(), BCrypt.gensalt());
         newUser.setPassword(hashed);
-        return userRepo.save(newUser);
+        return repo.save(newUser);
 
     }
 
     public User login(LoginUser newLogin, BindingResult result) {
 
-        Optional<User> potentialUser = userRepo.findByEmail(newLogin.getEmail());
+        Optional<User> potentialUser = repo.findByEmail(newLogin.getEmail());
 
         // Find user in the DB by email
         // Reject if NOT present
@@ -72,11 +73,13 @@ public class UserService {
     }
 
     public User findById(Long id) {
-        Optional<User> potentialUser = userRepo.findById(id);
+        Optional<User> potentialUser = repo.findById(id);
         if(potentialUser.isPresent()) {
             return potentialUser.get();
         }
         return null;
     }
 
+    public List<User> allUsers() { return (List<User>) repo.findAll();
+    }
 }
