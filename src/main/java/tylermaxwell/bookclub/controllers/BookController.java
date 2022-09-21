@@ -4,9 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import tylermaxwell.bookclub.models.Book;
 import tylermaxwell.bookclub.models.User;
 import tylermaxwell.bookclub.services.BookService;
@@ -64,5 +62,29 @@ public class BookController {
         session.setAttribute("user", user);
         return "books/index.jsp";
 
+    }
+
+    @GetMapping("/books/{id}")
+    public String show_book(@PathVariable("id") Long id, Model model){
+        Book book = bookService.findBook(id);
+        model.addAttribute("book", book);
+        return "books/show.jsp";
+    }
+
+    @GetMapping("/books/edit/{id}")
+    public String edit_book(@PathVariable("id") Long id, Model model){
+        Book book = bookService.findBook(id);
+        model.addAttribute("book", book);
+        return "books/edit.jsp";
+    }
+
+    @RequestMapping(value = "/books/{id}", method=RequestMethod.PUT)
+    public String update_book(@Valid @ModelAttribute("book") Book book, BindingResult result){
+        if (result.hasErrors()) {
+            return "/books/edit.jsp";
+        } else {
+            bookService.updateBook(book);
+            return "redirect:/books";
+        }
     }
 }

@@ -25,6 +25,9 @@
 <h1  class="align-content-center">Welcome, ${user.userName} </h1>
     <div class="row">
         <h2>Books</h2>
+        <div class="float-end">
+        <a class="float-end btn-sm btn-primary" href="/books/new">Add Book</a>
+        </div>
         <table class="Table">
             <thead>
             <tr>
@@ -38,7 +41,10 @@
                 <c:forEach var="book" items="${books}">
                     <tr>
                         <td><c:out value="${book.id}"></c:out></td>
-                        <td><c:out value="${book.title}"></c:out></td>
+                        <td>
+                            <a href="/books/${book.id}">
+                            <c:out value="${book.title}"></c:out></a>
+                        </td>
                         <td><c:out value="${book.author}"></c:out></td>
                         <td><c:out value="${book.user.getUserName()}"></c:out></td>
                     </tr>

@@ -21,8 +21,13 @@
     <title>LoginReg</title>
 </head>
 <body>
-<h3>Welcome, ${user.userName}</h3>
-<p>This is your dashboard. Nothing to see here yet.</p>
-<p><a href="/logout">logout</a></p>
+<div class="container">
+    <div>
+    <h1>${book.title}</h1>
+        <a class="float-end" href="/books">back to shelve</a>
+    </div>
+    <p>${book.user.getUserName()} read ${book.title} by ${book.author}</p>
+    <p>${book.myThoughts}</p>
+</div>
 </body>
 </html>

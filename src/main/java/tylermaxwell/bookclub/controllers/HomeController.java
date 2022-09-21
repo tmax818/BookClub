@@ -72,7 +72,7 @@ public class HomeController {
         Long userId = (Long) session.getAttribute("userId");
         model.addAttribute("user", userServ.findById(userId));
 
-        return "auth/welcome.jsp";
+        return "auth/show.jsp";
 
     }
 
