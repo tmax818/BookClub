@@ -27,8 +27,9 @@
         <h2>Books</h2>
         <div class="float-end">
         <a class="float-end btn-sm btn-primary" href="/books/new">Add Book</a>
+        <a class="float-end btn-sm btn-danger" href="/logout">Logout</a>
         </div>
-        <table class="Table">
+        <table class="table table-bordered">
             <thead>
             <tr>
                 <th>Id</th>
@@ -48,7 +49,7 @@
                         </td>
                         <td><c:out value="${book.author}"></c:out></td>
                         <td><c:out value="${book.user.getUserName()}"></c:out></td>
-                        <td> </td>
+                        <td><a href="/books/destroy/${book.id}">Delete</a> </td>
                     </tr>
                 </c:forEach>
             </tbody>

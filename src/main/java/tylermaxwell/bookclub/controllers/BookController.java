@@ -24,9 +24,7 @@ public class BookController {
     private UserService userService;
 
 
-
-
-    // CREATE
+    //! CREATE
     @GetMapping("/books/new")
     public String newBook(@ModelAttribute("book") Book book, HttpSession session){
         if(session.getAttribute("userId") == null){
@@ -37,18 +35,19 @@ public class BookController {
 
     @PostMapping("/books")
     public String create(@Valid @ModelAttribute("book") Book book, BindingResult result, HttpSession session) {
-        if (result.hasErrors()) {
-            return "/books/new.jsp";
+        Long userId = (Long) session.getAttribute("userId");
+        if(userId == null){
+            return "redirect:/logout";
+        }
+        if(result.hasErrors()){
+            return "books/new.jsp";
         } else {
-            User user = (User) session.getAttribute("user");
-            System.out.println(user);
-            System.out.println(session.getAttribute("userId"));
-            bookService.createBook(book, user);
+            bookService.createBook(book, userService.findById(userId));
             return "redirect:/books";
         }
     }
 
-    // READ ALL
+    //! READ ALL
 
     @GetMapping("/books")
     public String books(@ModelAttribute("Book") Book book, Model model, HttpSession session){
@@ -60,7 +59,7 @@ public class BookController {
         return "books/index.jsp";
 
     }
-
+    //! READ ONE
     @GetMapping("/books/{id}")
     public String show_book(@PathVariable("id") Long id, Model model){
         Book book = bookService.findBook(id);
@@ -68,6 +67,7 @@ public class BookController {
         return "books/show.jsp";
     }
 
+    //! UPDATE
     @GetMapping("/books/edit/{id}")
     public String edit_book(@PathVariable("id") Long id, Model model){
         Book book = bookService.findBook(id);
@@ -86,9 +86,10 @@ public class BookController {
         }
     }
 
+    //! DELETE
     @RequestMapping("/books/destroy/{id}")
     public String delete(@PathVariable("id") Long id){
-        bookService.destroy(id);
+        bookService.destroy(bookService.findBook(id));
         return "redirect:/books";
     }
 
