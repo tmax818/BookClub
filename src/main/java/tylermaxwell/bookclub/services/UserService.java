@@ -8,6 +8,7 @@ import tylermaxwell.bookclub.models.LoginUser;
 import tylermaxwell.bookclub.models.User;
 import tylermaxwell.bookclub.repositories.UserRepository;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
 

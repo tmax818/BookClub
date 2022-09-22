@@ -35,6 +35,7 @@
                 <th>Title</th>
                 <th>Author</th>
                 <th>Posted By</th>
+                <th>Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -47,6 +48,7 @@
                         </td>
                         <td><c:out value="${book.author}"></c:out></td>
                         <td><c:out value="${book.user.getUserName()}"></c:out></td>
+                        <td> </td>
                     </tr>
                 </c:forEach>
             </tbody>

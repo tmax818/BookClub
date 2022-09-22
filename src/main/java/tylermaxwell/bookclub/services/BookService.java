@@ -2,6 +2,7 @@ package tylermaxwell.bookclub.services;
 
 import org.springframework.stereotype.Service;
 import tylermaxwell.bookclub.models.Book;
+import tylermaxwell.bookclub.models.User;
 import tylermaxwell.bookclub.repositories.BookRepository;
 
 import java.util.List;
@@ -20,7 +21,9 @@ public class BookService {
         return repo.findAll();
     }
 
-    public void createBook(Book book) { repo.save(book);
+    public void createBook(Book book, User user) {
+        book.setUser(user);
+        repo.save(book);
     }
 
     public Book findBook(Long id) {
@@ -28,6 +31,12 @@ public class BookService {
         return optionalBook.orElse(null);
     }
 
-    public void updateBook(Book book) { repo.save(book);
+    public void updateBook(Book book, User user) {
+        book.setUser(user);
+        repo.save(book);
+    }
+
+    public void destroy(Long id){
+        repo.deleteById(id);
     }
 }

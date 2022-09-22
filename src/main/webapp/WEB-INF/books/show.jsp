@@ -28,6 +28,9 @@
     </div>
     <p>${book.user.getUserName()} read ${book.title} by ${book.author}</p>
     <p>${book.myThoughts}</p>
+    <c:if test="${user.getId() == book.user.getId()}">
+    <a href="/books/edit/${book.id}">Edit</a>
+    </c:if>
 </div>
 </body>
 </html>

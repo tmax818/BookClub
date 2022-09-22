@@ -38,6 +38,7 @@ public class HomeController {
         }
 
         session.setAttribute("userId", user.getId());
+        session.setAttribute("user", user);
         System.out.println(session);
 
 
@@ -55,7 +56,7 @@ public class HomeController {
         }
 
         session.setAttribute("userId", user.getId());
-        session.setAttribute("userName", user.getUserName());
+        session.setAttribute("user", user);
 
         return "redirect:/books";
     }
