@@ -22,12 +22,13 @@
 </head>
 <body>
 <div class="container">
-    <h1  class="align-content-center">New Book</h1>
+    <h1  class="align-content-center">Edit Book</h1>
     <div class="row">
         <div class="col">
             <div class="form-group">
-                <form:form action="/books/${book.id}" method="put" modelAttribute="book">
+                <form:form action="/books/${book.id}" method="post" modelAttribute="book">
                     <input type="hidden" name="_method" value="put">
+                    <form:hidden  path="user" value="${book.setUser(user)}" ></form:hidden>
                     <div class="form-group">
                         <form:label path="title">title</form:label>
                         <form:input  class="form-control" path="title"/>

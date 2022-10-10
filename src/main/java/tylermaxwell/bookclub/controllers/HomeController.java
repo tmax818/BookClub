@@ -1,10 +1,11 @@
 package tylermaxwell.bookclub.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import tylermaxwell.bookclub.models.LoginUser;
 import tylermaxwell.bookclub.models.User;
 import tylermaxwell.bookclub.services.UserService;
@@ -15,74 +16,51 @@ import javax.validation.Valid;
 @Controller
 public class HomeController {
 
-    @Autowired
-    private UserService userServ;
+    private final UserService userService;
+    public HomeController(UserService userService) {
+        this.userService = userService;
+    }
+
 
     @GetMapping("/")
     public String index(Model model){
-
         // Bind empty User and LoginUser objects to capture form input
-        model.addAttribute("newUser", new User());
-        model.addAttribute("newLogin", new LoginUser());
+        model.addAttribute("reg", new User());
+        model.addAttribute("login", new LoginUser());
         return "auth/index.jsp";
     }
 
     @PostMapping("/register")
-    public String register(@Valid @ModelAttribute("newUser") User newUser, BindingResult result, Model model, HttpSession session){
-
-        User user = userServ.register(newUser, result);
-        System.out.println(user);
+    public String register(@Valid @ModelAttribute("reg") User user, BindingResult result, Model model, HttpSession session){
+        // register a new user via the service
+        User userToRegister = userService.register(user, result);
         if(result.hasErrors()){
-            model.addAttribute("newLogin", new LoginUser());
+            model.addAttribute("login", new LoginUser());
             return "auth/index.jsp";
         }
-
         session.setAttribute("userId", user.getId());
-        session.setAttribute("user", user);
-        System.out.println(session);
-
-
         return "redirect:/books";
     }
 
     @PostMapping("/login")
-    public String login(@Valid @ModelAttribute("newLogin") LoginUser newLogin, BindingResult result, Model model, HttpSession session) {
-
-        User user = userServ.login(newLogin, result);
-
-        if(result.hasErrors() || user==null) {
-            model.addAttribute("newUser", new User());
-            return "auth/index.jsp";
+    public String login(@Valid @ModelAttribute("login") LoginUser loginUser, BindingResult result, Model model, HttpSession session) {
+        // login a new user via the service
+        User userToLogin = userService.login(loginUser, result);
+        if(result.hasErrors() || userToLogin==null){
+            model.addAttribute("reg", new User());
+            return "index.jsp";
         }
-
-        session.setAttribute("userId", user.getId());
-        session.setAttribute("user", user);
-
+        // add user id to session
+        session.setAttribute("userId", userToLogin.getId());
         return "redirect:/books";
     }
 
-    @GetMapping("/welcome")
-    public String welcome(HttpSession session, Model model) {
-        System.out.println(session.getAttribute("userId"));
-        // If no userId is found, redirect to logout
-        if(session.getAttribute("userId") == null) {
-            return "redirect:/logout";
-        }
-
-        // We get the userId from our session (we need to cast the result to a Long as the 'session.getAttribute("userId")' returns an object
-        Long userId = (Long) session.getAttribute("userId");
-        model.addAttribute("user", userServ.findById(userId));
-
-        return "auth/show.jsp";
-
-    }
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
-
-        // Set userId to null and redirect to login/register page
+        // Set userId to null
         session.setAttribute("userId", null);
-
+        // redirect to log in/register page
         return "redirect:/";
     }
 }

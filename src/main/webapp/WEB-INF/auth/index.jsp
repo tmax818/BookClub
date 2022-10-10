@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="/css/main.css"> <!-- change to match your file/naming structure -->
     <script src="/webjars/jquery/jquery.min.js"></script>
     <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
-    <title>Document</title>
+    <title>BookClub</title>
 </head>
 <body>
 <div class="container">
@@ -26,7 +26,7 @@
     <div class="row">
         <div class="col">
             <h2>Register</h2>
-            <form:form action="/register" method="post" modelAttribute="newUser">
+            <form:form action="/register" method="post" modelAttribute="reg">
                 <div>
                     <div class="form-group">
                     <form:label path="userName">userName</form:label>
@@ -55,7 +55,7 @@
         <div class="col">
             <h2>Login</h2>
             <div class="form-group">
-                <form:form action="/login" method="post" modelAttribute="newLogin">
+                <form:form action="/login" method="post" modelAttribute="login">
                     <div class="form-group">
                         <form:label path="email">email</form:label>
                         <form:input  class="form-control" path="email"/>

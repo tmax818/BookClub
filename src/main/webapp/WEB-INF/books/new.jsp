@@ -22,11 +22,13 @@
 </head>
 <body>
 <div class="container">
+    <h1>Welcome, <c:out value="${user.userName}"></c:out></h1>
     <h1  class="align-content-center">New Book</h1>
     <div class="row">
         <div class="col">
             <div class="form-group">
                 <form:form action="/books" method="post" modelAttribute="book">
+                    <form:hidden  path="user" value="${book.setUser(user)}" ></form:hidden>
                     <div class="form-group">
                         <form:label path="title">title</form:label>
                         <form:input  class="form-control" path="title"/>

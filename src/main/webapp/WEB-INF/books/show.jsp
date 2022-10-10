@@ -29,7 +29,12 @@
     <p>${book.user.getUserName()} read ${book.title} by ${book.author}</p>
     <p>${book.myThoughts}</p>
     <c:if test="${user.getId() == book.user.getId()}">
-    <a href="/books/edit/${book.id}">Edit</a>
+    <a class="btn btn-secondary" href="/books/edit/${book.id}">Edit</a>
+        <form action="/books/destroy/${book.id}" method="post">
+            <input type="hidden" name="_method" value="delete">
+            <input class="btn btn-danger" type="submit" value="Delete">
+        </form>
+
     </c:if>
 </div>
 </body>
