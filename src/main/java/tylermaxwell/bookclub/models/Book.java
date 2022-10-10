@@ -15,6 +15,7 @@ public class Book {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+    public Book() {}
 
     public User getUser() {
         return user;
@@ -24,9 +25,6 @@ public class Book {
         this.user = user;
     }
 
-    public Book() {
-
-    }
 
 
     public String getMyThoughts() {

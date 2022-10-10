@@ -50,6 +50,8 @@ public class UserService {
         // Reject if NOT present
         if(!userToLogin.isPresent()){
             result.rejectValue("email", "Matches", "User not Found");
+            System.out.println(result);
+            return null;
         }
         // User exists if you get to this line, so retrieve user from DB
         User user = userToLogin.get();
