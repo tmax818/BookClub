@@ -26,6 +26,7 @@
     <div class="row">
         <div class="col">
             <div class="form-group">
+                <%--@elvariable id="book" type="java"--%>
                 <form:form action="/books" method="post" modelAttribute="book">
                     <form:hidden path="user" value="${book.setUser(user)}"></form:hidden>
                     <div class="form-group">
