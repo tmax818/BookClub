@@ -26,6 +26,7 @@
     <div class="row">
         <div class="col">
             <h2>Register</h2>
+            <%--@elvariable id="reg" type="java"--%>
             <form:form action="/register" method="post" modelAttribute="reg">
                 <div>
                     <div class="form-group">
@@ -55,6 +56,7 @@
         <div class="col">
             <h2>Login</h2>
             <div class="form-group">
+                <%--@elvariable id="login" type="java"--%>
                 <form:form action="/login" method="post" modelAttribute="login">
                     <div class="form-group">
                         <form:label path="email">email</form:label>
