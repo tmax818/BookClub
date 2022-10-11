@@ -1,6 +1,7 @@
 package tylermaxwell.bookclub.models;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Book {
@@ -12,27 +13,30 @@ public class Book {
     private String title;
     private String author;
     private String myThoughts;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "users_books",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private List<User> users;
+
     public Book() {}
 
-    public User getUser() {
-        return user;
+    public Long getId() {
+        return id;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-
-
-    public String getMyThoughts() {
-        return myThoughts;
+    public String getTitle() {
+        return title;
     }
 
-    public void setMyThoughts(String myThoughts) {
-        this.myThoughts = myThoughts;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getAuthor() {
@@ -43,20 +47,19 @@ public class Book {
         this.author = author;
     }
 
-
-    public String getTitle() {
-        return title;
+    public String getMyThoughts() {
+        return myThoughts;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setMyThoughts(String myThoughts) {
+        this.myThoughts = myThoughts;
     }
 
-    public Long getId() {
-        return id;
+    public List<User> getUsers() {
+        return users;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 }

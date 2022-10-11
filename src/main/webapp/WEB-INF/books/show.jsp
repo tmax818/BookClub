@@ -26,9 +26,9 @@
     <h1>${book.title}</h1>
         <a class="float-end" href="/books">back to shelve</a>
     </div>
-    <p>${book.user.getUserName()} read ${book.title} by ${book.author}</p>
+    <p>${book.users.get(0).getUserName()} read ${book.title} by ${book.author}</p>
     <p>${book.myThoughts}</p>
-    <c:if test="${user.getId() == book.user.getId()}">
+    <c:if test="${user.getId() == book.users.get(0).getId()}">
     <a class="btn btn-secondary" href="/books/edit/${book.id}">Edit</a>
         <form action="/books/destroy/${book.id}" method="post">
             <input type="hidden" name="_method" value="delete">

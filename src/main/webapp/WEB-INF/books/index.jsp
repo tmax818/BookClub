@@ -32,22 +32,37 @@
         <table class="table table-bordered">
             <thead>
             <tr>
+                <th>Upvote</th>
                 <th>Id</th>
                 <th>Title</th>
                 <th>Author</th>
-                <th>Posted By</th>
+                <th>Votes</th>
+
             </tr>
             </thead>
             <tbody>
                 <c:forEach var="book" items="${books}">
                     <tr>
+                        <c:choose>
+                            <c:when test="${!votedBooks.contains(book)}">
+                                <td>
+                                <a href="/books/vote/${book.id}">vote</a>
+                                </td>
+                            </c:when>
+                            <c:otherwise>
+                                <td>
+                                    You already voted
+                                </td>
+                            </c:otherwise>
+                        </c:choose>
                         <td><c:out value="${book.id}"></c:out></td>
                         <td>
                             <a href="/books/${book.id}">
                             <c:out value="${book.title}"></c:out></a>
                         </td>
                         <td><c:out value="${book.author}"></c:out></td>
-                        <td><c:out value="${book.user.getUserName()}"></c:out></td>
+
+                    <td><c:out value="${book.users.size()}"></c:out></td>
                     </tr>
                 </c:forEach>
             </tbody>

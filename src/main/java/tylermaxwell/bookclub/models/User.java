@@ -30,18 +30,15 @@ public class User {
     @Size(min = 8, max = 128, message = "You know the drill!")
     private String confirm;
 
-    @OneToMany(mappedBy="user", fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "users_books",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id")
+    )
     private List<Book> books;
 
-    public User(){}
-
-//    public User(String userName, String email, String password, String confirm, List<Book> books) {
-//        this.userName = userName;
-//        this.email = email;
-//        this.password = password;
-//        this.confirm = confirm;
-////        this.books = books;
-//    }
+    public User() {}
 
     public Long getId() {
         return id;
@@ -81,5 +78,13 @@ public class User {
 
     public void setConfirm(String confirm) {
         this.confirm = confirm;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 }

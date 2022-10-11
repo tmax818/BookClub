@@ -11,6 +11,7 @@ import tylermaxwell.bookclub.services.UserService;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -29,7 +30,9 @@ public class BookController {
     public String newBook(@ModelAttribute("book")Book book, Model model, HttpSession session){
         Long id = (Long) session.getAttribute("userId");
         User user = (User) userService.findById(id);
-        model.addAttribute("user", user);
+        List<User> users = new ArrayList<>();
+        users.add(user);
+        model.addAttribute("users", users);
         return "books/new.jsp";
     }
 
@@ -50,8 +53,12 @@ public class BookController {
         List<Book> books = bookService.getAll();
         Long id = (Long) session.getAttribute("userId");
         User user = (User) userService.findById(id);
+        List<Book> votedBooks = bookService.getBooksVotedByUser(user);
+
+
         model.addAttribute("user", user);
         model.addAttribute("books", books);
+        model.addAttribute("votedBooks", votedBooks);
         return "books/index.jsp";
     }
 
@@ -78,19 +85,34 @@ public class BookController {
 
         Long userId = (Long) session.getAttribute("userId");
         User user = (User) userService.findById(userId);
+
         model.addAttribute("user", user);
         return "books/edit.jsp";
     }
 
     @PutMapping("/books/{id}")
-    public String update(@Valid @ModelAttribute("book") Book book, BindingResult result){
+    public String update(@Valid @ModelAttribute("book") Book book, BindingResult result, @PathVariable("id")Long id){
         if(result.hasErrors()){
             return "books/edit.jsp";
         } else {
+            Book oldBook = bookService.getOne(id);
+            book.setUsers(oldBook.getUsers());
             bookService.update(book);
             return "redirect:/books";
         }
 
+    }
+
+    //! VOTE
+
+    @GetMapping("/books/vote/{id}")
+    public String vote(@PathVariable("id")Long id, HttpSession session){
+        Long userId = (Long) session.getAttribute("userId");
+        User user = (User) userService.findById(userId);
+        Book book = bookService.findBook(id);
+        book.getUsers().add(user);
+        bookService.update(book);
+        return "redirect:/books";
     }
 
     //! DELETE
