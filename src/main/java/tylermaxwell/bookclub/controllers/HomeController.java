@@ -49,7 +49,7 @@ public class HomeController {
         User userToLogin = userService.login(loginUser, result);
         if(result.hasErrors() || userToLogin==null){
             model.addAttribute("reg", new User());
-            return "index.jsp";
+            return "auth/index.jsp";
         }
         // add user id to session
         session.setAttribute("userId", userToLogin.getId());
@@ -62,6 +62,6 @@ public class HomeController {
         // Set userId to null
         session.setAttribute("userId", null);
         // redirect to log in/register page
-        return "redirect:/";
+        return "redirect:/auth";
     }
 }
