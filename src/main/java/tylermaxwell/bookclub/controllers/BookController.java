@@ -25,7 +25,7 @@ public class BookController {
         this.userService = userService;
     }
 
-
+    //! CREATE
     @GetMapping("/books/new")
     public String newBook(@ModelAttribute("book")Book book, Model model, HttpSession session){
         Long id = (Long) session.getAttribute("userId");
@@ -44,12 +44,51 @@ public class BookController {
         }
     }
 
+    //! READ ALL
     @GetMapping("/books")
     public String allBooks(Model model){
         List<Book> books = bookService.getAll();
         model.addAttribute("books", books);
          return "books/index.jsp";
 
+    }
+
+    //!READ ONE
+
+    @GetMapping("/books/{id}")
+    public String show(HttpSession session, Model model, @PathVariable("id")Long id){
+        Book book = bookService.getOne(id);
+        model.addAttribute("book", book);
+
+        Long userId = (Long) session.getAttribute("userId");
+        User user = userService.findById(userId);
+        model.addAttribute("user", user);
+        return "books/show.jsp";
+    }
+
+    //! EDIT
+
+    @GetMapping("/books/edit/{id}")
+    public String editBook(@PathVariable("id")Long id, Model model){
+        Book book = bookService.getOne(id);
+        model.addAttribute("book", book);
+        return "books/edit.jsp";
+    }
+
+    @PutMapping("/books/{id}")
+    public String updateBook(@Valid @ModelAttribute("book")Book book, BindingResult result){
+        if(result.hasErrors()){
+            return "books/edit.jsp";
+        } else {
+            bookService.update(book);
+            return "redirect:/books";
+        }
+    }
+
+    @DeleteMapping("/books/destroy/{id}")
+    public String destroy(@PathVariable("id")Long id){
+        bookService.destroy(bookService.getOne(id));
+        return "redirect:/books";
     }
 
 

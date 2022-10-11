@@ -28,6 +28,7 @@
             <div class="form-group">
                 <form:form action="/books/${book.id}" method="put" modelAttribute="book">
                     <input type="hidden" name="_method" value="put">
+                    <form:input type="hidden" name="user" path="user"></form:input>
                     <div class="form-group">
                         <form:label path="title">title</form:label>
                         <form:input  class="form-control" path="title"/>

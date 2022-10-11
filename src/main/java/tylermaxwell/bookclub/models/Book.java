@@ -2,6 +2,7 @@ package tylermaxwell.bookclub.models;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "books")
@@ -9,6 +10,7 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotEmpty(message = "Where's the title, Bro!!")
     private String title;
     private String author;
 
