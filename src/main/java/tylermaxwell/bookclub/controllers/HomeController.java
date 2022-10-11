@@ -62,6 +62,6 @@ public class HomeController {
         // Set userId to null
         session.setAttribute("userId", null);
         // redirect to log in/register page
-        return "redirect:/auth";
+        return "redirect:/";
     }
 }
